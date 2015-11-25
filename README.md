@@ -2,9 +2,32 @@
 
 1. Lister tous les élements x appartenant à Zn, pour lesquels il existe y appartenant à Zn tel que y² = x mod n pour n = 48 et n = 53. Que constate-t-on?
 
+*********** 48 ***********
+8 nombres (avec le 0)
+
+*********** 53 ***********
+27 (avec le 0)
+
+De 48 à 53 (ces nombres sont proches) mais le nombre de carrés est très différent.
+La différence entre les deux, 53 est un nombre premier.
+
 
 2. Compter le nombre d'éléments inversibles dans Z48 et Z53.
+
+Inversible :: 3 = 5 mod 7 car 3*5 = 1 mod 7
+
+*********** 48 ***********
+16 nombres
+
+*********** 53 ***********
+52 nombres
+
+Car c'est un nombre premier, alors il n'y a pas beaucoup de nombre non inversibles.
+
 3. Implémenter un test de primalité naif.
+
+
+
 4. Comparer (en termes de temps de calcul) le test précédent au test de Fermat. Conclusion?
 5. Générer 2 entiers p et q de 512 bits.
 6. Calculer n=pq et phin=(p-1)(q-1)
