@@ -3,9 +3,9 @@ package cryptographie;
 import java.math.BigInteger;
 import java.util.Random;
 
-public class CryptoSystem
+public class CryptoSystemRSA
 {
-    public CryptoSystem(int nbBitPKey, int nbBitGen)
+    public CryptoSystemRSA(int nbBitPKey, int nbBitGen)
     {
         this.nbBitPKey = nbBitPKey;
         this.nbBitGen = nbBitGen;

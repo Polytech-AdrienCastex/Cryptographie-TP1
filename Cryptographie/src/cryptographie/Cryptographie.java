@@ -10,7 +10,13 @@ import java.util.Random;
 public class Cryptographie
 {
     public static void main(String[] args)
-    {/*
+    {
+        BigInteger m = new BigInteger("55555");
+        CryptoSystemPaillier csp = new CryptoSystemPaillier(512, 512);
+        csp.generateKeys();
+        System.out.println(csp.decrypt(csp.encrypt(m)));
+        
+        /*
         BigInteger p = Lister.generatePrimal(512);
         BigInteger q = Lister.generatePrimal(512);
         BigInteger n = Lister.getN(p, q);
@@ -93,7 +99,7 @@ public class Cryptographie
         
         System.out.println(Lister.arePrimal(BigInteger.valueOf(19), BigInteger.valueOf(3672)));
         
-        CryptoSystem cs = new CryptoSystem(1024, 1024);
+        CryptoSystemRSA cs = new CryptoSystemRSA(1024, 1024);
         cs.generateKeys();
         System.out.println("pk = " + cs.getPublicKey());
         System.out.println("sk = " + cs.getPrivateKey());
