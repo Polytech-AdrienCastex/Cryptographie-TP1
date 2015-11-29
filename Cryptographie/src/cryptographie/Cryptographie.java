@@ -11,10 +11,19 @@ public class Cryptographie
 {
     public static void main(String[] args)
     {
+        /*for(int i = 0; i < 1000; i++)
+        {*/
         BigInteger m = new BigInteger("55555");
         CryptoSystemPaillier csp = new CryptoSystemPaillier(512, 512);
         csp.generateKeys();
-        System.out.println(csp.decrypt(csp.encrypt(m)));
+        System.out.println(csp.decrypt(csp.encrypt(m)));/*
+        if(csp.decrypt(csp.encrypt(m)).equals(m))
+        {
+            System.out.println(i);
+            return;
+        }
+            System.out.println(i);
+        }*/
         
         /*
         BigInteger p = Lister.generatePrimal(512);
@@ -96,7 +105,7 @@ public class Cryptographie
             System.out.println("D(E(x)) = " + dm);
             System.out.println("D(E(x)) == x = " + dm.equals(x));
         }*/
-        
+        /*
         System.out.println(Lister.arePrimal(BigInteger.valueOf(19), BigInteger.valueOf(3672)));
         
         CryptoSystemRSA cs = new CryptoSystemRSA(1024, 1024);
