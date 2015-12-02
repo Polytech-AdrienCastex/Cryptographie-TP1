@@ -3,7 +3,7 @@ package cryptographie;
 import java.math.BigInteger;
 import java.util.Random;
 
-public class CryptoSystemRSA
+public class CryptoSystemRSA implements ICryptoSystem
 {
     public CryptoSystemRSA(int nbBitPKey, int nbBitGen)
     {

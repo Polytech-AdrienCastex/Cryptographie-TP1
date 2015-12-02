@@ -3,20 +3,17 @@ package cryptographie;
 import java.math.BigInteger;
 import java.util.Random;
 
-/**
- *
- * @author p1002239
- */
 public class Cryptographie
 {
     public static void main(String[] args)
     {
         /*for(int i = 0; i < 1000; i++)
         {*/
-        BigInteger m = new BigInteger("55555");
-        CryptoSystemPaillier csp = new CryptoSystemPaillier(512, 512);
+        BigInteger m = new BigInteger("555555555");
+        CryptoSystemPaillier csp = new CryptoSystemPaillier(512);
         csp.generateKeys();
-        System.out.println(csp.decrypt(csp.encrypt(m)));/*
+        System.out.println(csp.decrypt(csp.encrypt(m)));
+        /*
         if(csp.decrypt(csp.encrypt(m)).equals(m))
         {
             System.out.println(i);
