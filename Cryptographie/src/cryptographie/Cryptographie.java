@@ -5,14 +5,122 @@ import java.util.Random;
 
 public class Cryptographie
 {
+    protected static void proceed(CryptoSystemPaillier csp, BigInteger ansA, BigInteger idB, BigInteger idA)
+    {
+        BigInteger cid1 = csp.encrypt(idB);
+        String str_cid = cid1.toString();
+        int len = str_cid.length() / 3;
+        BigInteger cid1_1 = new BigInteger(str_cid.substring(0, len));
+        BigInteger cid1_2 = new BigInteger(str_cid.substring(len, len * 2));
+        BigInteger cid1_3 = new BigInteger(str_cid.substring(len * 2));
+        BigInteger cid_1 = csp.encrypt(cid1_1);
+        BigInteger cid_2 = csp.encrypt(cid1_2);
+        BigInteger cid_3 = csp.encrypt(cid1_3);
+        
+        
+        BigInteger Bcid1 = csp.encrypt(idA);
+        String str_Bcid = Bcid1.toString();
+        len = str_Bcid.length() / 3;
+        BigInteger cid1_B1 = new BigInteger(str_Bcid.substring(0, len));
+        BigInteger cid1_B2 = new BigInteger(str_Bcid.substring(len, len * 2));
+        BigInteger cid1_B3 = new BigInteger(str_Bcid.substring(len * 2));
+        BigInteger cid_B1 = csp.encrypt(cid1_B1);
+        BigInteger cid_B2 = csp.encrypt(cid1_B2);
+        BigInteger cid_B3 = csp.encrypt(cid1_B3);
+        BigInteger cid_BB = csp.encrypt(cid1);
+        
+        //System.out.println(csp.decrypt(new BigInteger(csp.decrypt(cid_1).toString() + csp.decrypt(cid_2).toString() + csp.decrypt(cid_3).toString())));
+        
+        
+        BigInteger msgA = csp.encrypt(ansA)/*.multiply(csp.encrypt(idA))*/.multiply(idB);
+        
+        BigInteger ansB = csp.decrypt(msgA).subtract(idA)/*.subtract(idB)*/;
+        
+        
+        System.out.println(ansB);
+    }
+    
     public static void main(String[] args)
     {
         /*for(int i = 0; i < 1000; i++)
         {*/
-        BigInteger m = new BigInteger("555555555");
         CryptoSystemPaillier csp = new CryptoSystemPaillier(512);
         csp.generateKeys();
-        System.out.println(csp.decrypt(csp.encrypt(m)));
+        
+        CryptoSystemPaillier csp2 = new CryptoSystemPaillier(512);
+        csp2.generateKeys();
+        
+        // Alice
+        BigInteger A1 = new BigInteger("10");
+        BigInteger A2 = new BigInteger("20");
+        BigInteger A3 = new BigInteger("30");
+        
+        BigInteger Q1 = BigInteger.valueOf(Math.abs(new Random().nextLong()));
+        BigInteger Q2 = BigInteger.valueOf(Math.abs(new Random().nextLong()));
+        BigInteger Q3 = BigInteger.valueOf(Math.abs(new Random().nextLong()));
+        
+        BigInteger q1 = csp2.encrypt(Q1);
+        BigInteger q2 = csp2.encrypt(Q2);
+        BigInteger q3 = csp2.encrypt(Q3);
+        
+        // Bob
+        BigInteger rs = BigInteger.valueOf(Math.abs(new Random().nextLong()));
+        
+        BigInteger qsel = q3;
+        BigInteger cqsel = qsel.multiply(csp2.encrypt(rs));
+        
+        // Alice
+        BigInteger qselA = csp2.decrypt(cqsel);
+        BigInteger a1 = csp.encrypt(csp.n.subtract(Q1).add(A1).add(qselA));
+        BigInteger a2 = csp.encrypt(csp.n.subtract(Q2).add(A2).add(qselA));
+        BigInteger a3 = csp.encrypt(csp.n.subtract(Q3).add(A3).add(qselA));
+        
+        // a1 = A1 + n - Q1 + rs + Qx
+        // A1 = a1 + Q1 - rs - Qx
+        
+        // Bob
+        System.out.println(csp.decrypt(a1).subtract(rs));
+        System.out.println(csp.decrypt(a2).subtract(rs));
+        System.out.println(csp.decrypt(a3).subtract(rs));
+        
+        
+        /*
+        CryptoSystemPaillier csp2 = new CryptoSystemPaillier(512);
+        csp2.generateKeys();
+        
+        BigInteger v1 = BigInteger.valueOf(Math.abs(new Random().nextLong()));
+        BigInteger v2 = BigInteger.valueOf(Math.abs(new Random().nextLong()));
+        BigInteger v3 = BigInteger.valueOf(Math.abs(new Random().nextLong()));
+        
+        BigInteger ans1 = new BigInteger("10");
+        BigInteger ans2 = new BigInteger("20");
+        BigInteger ans3 = new BigInteger("30");
+        
+        BigInteger A1 = csp.encrypt(v2);
+        
+        BigInteger v1c = csp.encrypt(ans1).multiply(csp2.encrypt(v1));
+        BigInteger v2c = csp.encrypt(ans2).multiply(csp2.encrypt(v2));
+        BigInteger v3c = csp.encrypt(ans3).multiply(csp2.encrypt(v3));
+        
+        BigInteger Bv1 = csp.decrypt(v1c).subtract(v1);
+        BigInteger Bv2 = csp.decrypt(v2c).subtract(v2);
+        BigInteger Bv3 = csp.decrypt(v3c).subtract(v3);
+        
+        System.out.println(Bv1);
+        System.out.println(Bv2);
+        System.out.println(Bv3);
+        
+        System.out.println(csp.decrypt(v1c).subtract(v1));
+        System.out.println(csp.decrypt(v1c).subtract(v2));
+        System.out.println(csp.decrypt(v1c).subtract(v3));*/
+        
+        
+        /*
+        proceed(csp, new BigInteger("70"), csp.encrypt(v1), v1);
+        proceed(csp, new BigInteger("70"), csp.encrypt(v2), v2);
+        proceed(csp, new BigInteger("70"), csp.encrypt(v3), v3);
+        */
+        
         /*
         if(csp.decrypt(csp.encrypt(m)).equals(m))
         {

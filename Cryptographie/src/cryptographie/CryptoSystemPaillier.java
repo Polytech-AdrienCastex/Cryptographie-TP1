@@ -13,7 +13,7 @@ public class CryptoSystemPaillier implements ICryptoSystem
     private final int nbBitGen;
     private BigInteger pk;
     private BigInteger sk;
-    private BigInteger n;
+    public BigInteger n;
     private BigInteger n2;
     private BigInteger phin;
     
@@ -39,8 +39,15 @@ public class CryptoSystemPaillier implements ICryptoSystem
         return sk;
     }
     
-    @Override
-    public BigInteger encrypt(BigInteger msg)
+    public BigInteger encrypt(BigInteger msg, BigInteger r)
+    {
+        return n.add(BigInteger.ONE)
+                .modPow(msg, n2)
+                .multiply(r.modPow(n, n2))
+                .mod(n2);
+    }
+    
+    public BigInteger getRandom()
     {
         Random rnd = new Random();
         BigInteger r;
@@ -49,10 +56,13 @@ public class CryptoSystemPaillier implements ICryptoSystem
             r = new BigInteger(n.bitLength(), rnd);
         } while(r.compareTo(BigInteger.ZERO) == -1 || r.compareTo(n) == 1);
         
-        return n.add(BigInteger.ONE)
-                .modPow(msg, n2)
-                .multiply(r.modPow(n, n2))
-                .mod(n2);
+        return r;
+    }
+    
+    @Override
+    public BigInteger encrypt(BigInteger msg)
+    {
+        return encrypt(msg, getRandom());
     }
     
     @Override
