@@ -1,5 +1,6 @@
-package cryptographie;
+package cryptographie.systems;
 
+import cryptographie.exercice.Lister;
 import java.math.BigInteger;
 import java.util.Random;
 

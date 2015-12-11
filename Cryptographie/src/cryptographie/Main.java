@@ -3,47 +3,14 @@ package cryptographie;
 import java.math.BigInteger;
 import java.util.Random;
 
-public class Cryptographie
+public class Main
 {
-    protected static void proceed(CryptoSystemPaillier csp, BigInteger ansA, BigInteger idB, BigInteger idA)
-    {
-        BigInteger cid1 = csp.encrypt(idB);
-        String str_cid = cid1.toString();
-        int len = str_cid.length() / 3;
-        BigInteger cid1_1 = new BigInteger(str_cid.substring(0, len));
-        BigInteger cid1_2 = new BigInteger(str_cid.substring(len, len * 2));
-        BigInteger cid1_3 = new BigInteger(str_cid.substring(len * 2));
-        BigInteger cid_1 = csp.encrypt(cid1_1);
-        BigInteger cid_2 = csp.encrypt(cid1_2);
-        BigInteger cid_3 = csp.encrypt(cid1_3);
-        
-        
-        BigInteger Bcid1 = csp.encrypt(idA);
-        String str_Bcid = Bcid1.toString();
-        len = str_Bcid.length() / 3;
-        BigInteger cid1_B1 = new BigInteger(str_Bcid.substring(0, len));
-        BigInteger cid1_B2 = new BigInteger(str_Bcid.substring(len, len * 2));
-        BigInteger cid1_B3 = new BigInteger(str_Bcid.substring(len * 2));
-        BigInteger cid_B1 = csp.encrypt(cid1_B1);
-        BigInteger cid_B2 = csp.encrypt(cid1_B2);
-        BigInteger cid_B3 = csp.encrypt(cid1_B3);
-        BigInteger cid_BB = csp.encrypt(cid1);
-        
-        //System.out.println(csp.decrypt(new BigInteger(csp.decrypt(cid_1).toString() + csp.decrypt(cid_2).toString() + csp.decrypt(cid_3).toString())));
-        
-        
-        BigInteger msgA = csp.encrypt(ansA)/*.multiply(csp.encrypt(idA))*/.multiply(idB);
-        
-        BigInteger ansB = csp.decrypt(msgA).subtract(idA)/*.subtract(idB)*/;
-        
-        
-        System.out.println(ansB);
-    }
-    
     public static void main(String[] args)
     {
+        new cryptographie.projet.Main().run();
+        
         /*for(int i = 0; i < 1000; i++)
-        {*/
+        {*//*
         CryptoSystemPaillier csp = new CryptoSystemPaillier(512);
         csp.generateKeys();
         
@@ -81,7 +48,7 @@ public class Cryptographie
         // Bob
         System.out.println(csp.decrypt(a1).subtract(rs));
         System.out.println(csp.decrypt(a2).subtract(rs));
-        System.out.println(csp.decrypt(a3).subtract(rs));
+        System.out.println(csp.decrypt(a3).subtract(rs));*/
         
         
         /*

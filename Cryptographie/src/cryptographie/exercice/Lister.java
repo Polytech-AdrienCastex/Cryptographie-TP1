@@ -1,4 +1,4 @@
-package cryptographie;
+package cryptographie.exercice;
 
 import java.math.BigInteger;
 import java.util.Collection;

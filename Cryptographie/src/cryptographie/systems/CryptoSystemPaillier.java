@@ -1,5 +1,6 @@
-package cryptographie;
+package cryptographie.systems;
 
+import cryptographie.exercice.Lister;
 import java.math.BigInteger;
 import java.util.Random;
 
@@ -23,7 +24,7 @@ public class CryptoSystemPaillier implements ICryptoSystem
         BigInteger p = Lister.generatePrimal(nbBitGen);
         BigInteger q = Lister.generatePrimal(nbBitGen);
         n = Lister.getN(p, q);
-        n2 = n.pow(2);
+        n2 = n.multiply(n);
         phin = Lister.getPhiN(p, q);
         
         pk = n;
@@ -32,21 +33,33 @@ public class CryptoSystemPaillier implements ICryptoSystem
     
     public BigInteger getPublicKey()
     {
-        return new BigInteger(n.toString() + pk.toString());
+        return pk;
     }
     public BigInteger getPrivateKey()
     {
         return sk;
     }
     
-    public BigInteger encrypt(BigInteger msg, BigInteger r)
+    public static BigInteger encrypt(BigInteger msg, BigInteger n)
     {
+        BigInteger n2 = n.multiply(n);
         return n.add(BigInteger.ONE)
                 .modPow(msg, n2)
-                .multiply(r.modPow(n, n2))
+                .multiply(getRandom(n).modPow(n, n2))
                 .mod(n2);
     }
     
+    public static BigInteger getRandom(BigInteger n)
+    {
+        Random rnd = new Random();
+        BigInteger r;
+        do
+        {
+            r = new BigInteger(n.bitLength(), rnd);
+        } while(r.compareTo(BigInteger.ZERO) == -1 || r.compareTo(n) == 1);
+        
+        return r;
+    }
     public BigInteger getRandom()
     {
         Random rnd = new Random();
@@ -62,7 +75,10 @@ public class CryptoSystemPaillier implements ICryptoSystem
     @Override
     public BigInteger encrypt(BigInteger msg)
     {
-        return encrypt(msg, getRandom());
+        return n.add(BigInteger.ONE)
+                .modPow(msg, n2)
+                .multiply(getRandom().modPow(n, n2))
+                .mod(n2);
     }
     
     @Override
